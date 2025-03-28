@@ -19,3 +19,5 @@ jobs:
         run: |
           echo "Logging message..."
           echo "${{ env.MESSAGE }}"
+          echo "${{ env.MESSAGE }}" > message.txt
+          cat message.txt
