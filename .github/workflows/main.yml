@@ -38,3 +38,10 @@ jobs:
             exit 1
           fi
 
+      # Step to upload message.txt as an artifact
+      - name: Upload message.txt as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: message-artifact  # Artifact name (can be any name)
+          path: message.txt  # Path to the file you want to upload          
+
