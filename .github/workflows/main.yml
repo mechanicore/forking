@@ -1,8 +1,14 @@
 name: Logger
+
 on:
   push:
     branches:
       - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
   log:
@@ -15,7 +21,26 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v3
 
+      # Step to log the message, create message.txt, and print its contents
       - name: Log message
         run: |
           echo "Logging message..."
-          echo "${{ env.MESSAGE }}"
+          echo "${{ secrets.MESSAGE }}"
+          echo "${{ secrets.MESSAGE }}" > message.txt  # Write MESSAGE to message.txt
+          cat message.txt  # Display contents of message.txt
+          du -b message.txt  # Display file size in bytes
+
+      # Verify message.txt exists before upload
+      - name: Verify message.txt exists
+        run: |
+          if [ ! -f message.txt ]; then
+            echo "Error: message.txt not found!"
+            exit 1
+          fi
+
+      # Upload message.txt as an artifact
+      - name: Upload message.txt as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: message-artifact  # Artifact name (can be any name)
+          path: message.txt  # Path to the file you want to upload
