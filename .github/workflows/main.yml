@@ -44,4 +44,5 @@ jobs:
         with:
           name: message-artifact  # Artifact name (can be any name)
           path: message.txt  # Path to the file you want to upload          
+          if-no-files-found: warn
 
